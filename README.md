@@ -1,6 +1,6 @@
 # **Webpack Template Repository**
 
-This repository is designed to be used as a **template for Webpack projects**. It includes a minimal Webpack setup with **webpack-merge** for managing development and production configurations. To customize the setup, refer to the guide below on how to add **CSS, image, and HTML loaders** as needed for your project.
+This repository is designed to be used as a **template for Webpack projects**. It includes a minimal Webpack setup. To customize the setup, refer to the guide below on how to add **CSS, image, and HTML loaders** as needed for your project.
 
 
 ## **1. Install Required Loaders**
@@ -13,21 +13,6 @@ To process CSS files, install the necessary loaders:
 npm install --save-dev style-loader css-loader
 ```
 
-Then, modify `webpack.common.js` to include the CSS rule:
-
-```javascript
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-    ],
-  },
-};
-```
-
 ### **Image Loader**
 
 To handle images like PNG, JPG, SVG, and GIF files, install:
@@ -36,41 +21,12 @@ To handle images like PNG, JPG, SVG, and GIF files, install:
 npm install --save-dev file-loader
 ```
 
-Then, modify `webpack.common.js` to include the image rule:
-
-```javascript
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.(png|jpe?g|gif|svg)$/i,
-        type: "asset/resource",
-      },
-    ],
-  },
-};
-```
-
 ### **HTML Loader**
 
 To process HTML files and automatically inject bundled JavaScript, install:
 
 ```bash
-npm install --save-dev html-webpack-plugin
-```
-
-Then, modify `webpack.common.js` to use the plugin:
-
-```javascript
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-module.exports = {
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-    }),
-  ],
-};
+npm install --save-dev html-loader
 ```
 
 ## **2. Updating Project Structure**
@@ -92,60 +48,29 @@ my-project/
 ├── webpack.prod.js
 ```
 
-## **3. Configure Webpack with `webpack-merge`**
+## **3. Configure Webpack Loaders**
 
-### **Install webpack-merge**
-
-```bash
-npm install --save-dev webpack-merge
-```
-
-### **Common Configuration (`webpack.common.js`)**
+Modify `webpack.common.js` to include the following rules:
 
 ```javascript
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 module.exports = {
-  entry: "./src/index.js",
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-    clean: true,
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+    ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-    }),
-  ],
 };
-```
-
-### **Development Configuration (`webpack.dev.js`)**
-
-```javascript
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
-
-module.exports = merge(common, {
-  mode: "development",
-  devServer: {
-    static: "./dist",
-    hot: true,
-    open: true,
-  },
-});
-```
-
-### **Production Configuration (`webpack.prod.js`)**
-
-```javascript
-const { merge } = require("webpack-merge");
-const common = require("./webpack.common.js");
-
-module.exports = merge(common, {
-  mode: "production",
-});
 ```
 
 ## **4. Available npm Scripts**
@@ -182,5 +107,5 @@ Or create a new production build:
 npm run build
 ```
 
-Your project is now configured to handle **CSS, images, and HTML** using Webpack, along with essential scripts for development and code quality, while leveraging **webpack-merge** for a modular configuration.
+Your project is now configured to handle **CSS, images, and HTML** using Webpack, along with essential scripts for development and code quality.
 
