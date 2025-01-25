@@ -81,7 +81,7 @@ Modify your `package.json` file to include these scripts:
 "scripts": {
   "start": "webpack serve --open --config webpack.dev.js",
   "build": "webpack --config webpack.prod.js",
-  "lint": "eslint src --ext .js",
+  "lint": "eslint src",
   "format": "prettier --write src"
 }
 ```
