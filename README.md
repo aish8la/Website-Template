@@ -98,6 +98,38 @@ module.exports = {
 };
 ```
 
+### **1.5 Babel Loader (For Transpiling Modern JavaScript)**
+
+#### Installation:
+```bash
+npm install -D babel-loader @babel/core @babel/preset-env webpack
+```
+
+#### Configuration:
+Modify `webpack.common.js` to include Babel processing:
+
+```javascript
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(?:js|mjs|cjs)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            targets: "defaults",
+            presets: [
+              ['@babel/preset-env']
+            ]
+          }
+        }
+      }
+    ]
+  }
+};
+```
+
 ---
 
 ## **2. Project Structure**
